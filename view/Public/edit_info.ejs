@@ -1,0 +1,111 @@
+<%- include('header.ejs'); %>
+
+<script type="text/javascript" src="Public/js/edit_info.js"></script>
+
+<div class="space_120" id="anchor"></div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 category">
+        <div class="title">
+            <p class="form_title">SỬA THÔNG TIN CÁ NHÂN</p>
+        </div>
+        <div class="space_60"></div>
+        <% if (cart.getCustomer() == null) { %>
+            <script type="text/javascript">
+                openDialog("Lỗi tải trang", "Không tìm thấy thông tin người dùng tương ứng, ấn OK để quay trở lại trang chủ!", function() {
+                    window.location.href = "/";
+                });
+            </script>
+        <% } else { %>
+            <script type="text/javascript">
+                $selectedAvarta = '<%= cart.getCustomer().getAvarta(); %>';
+            </script>
+            <form id="inputForm">
+                <div class="form-group">
+                    <label for="tf_Name">Họ tên:</label>
+                    <input type="text" class="form-control" id="tf_Name" value="<%= cart.getCustomer().getFullName().toString(); %>" placeholder="Example">
+                </div>
+                
+                <div class="form-group">
+                    <label for="img_Avarta">Ảnh đại diện:</label>
+                    <br>
+                    <div class="center_div">
+                        <img id="img_Avarta" src="Resources/User/<%= cart.getCustomer().getAvarta(); %>" class="avarta_big avarta_big_left_shift"></img>
+                        <div class="space_20"></div>
+                        <br>
+                        <label for="btn_BrowseFile" class="btn btn-warning center_button">TẢI ẢNH LÊN</label>
+                        <input id="btn_BrowseFile" type="file">
+                    </div>
+                    
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="tf_Email">Email:</label>
+                        <input type="email" class="form-control" id="tf_Email" value="<%= cart.getCustomer().getAccount().getEmail(); %>" readonly>
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label for="tf_PhoneNumber">Số điện thoại:</label>
+                        <input type="number" class="form-control" id="tf_PhoneNumber"  value="<%= cart.getCustomer().getPhoneNumber(); %>" placeholder="0123456789">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-xs-6">
+                        <label for="tf_DoB">Ngày sinh:</label>
+                        <input type="date" class="form-control" id="tf_DoB"  value="<%= cart.getCustomer().getDoB(); %>">
+                    </div>
+
+                    <div class="col-xs-6">
+                        <label for="cb_Gender">Giới tính:</label>
+                        <select class="form-control" id="cb_Gender">
+                            <% if (cart.getCustomer().getGender() == 0) { %>
+                                <option value="0" selected>Nam</option>
+                                <option value="1">Nữ</option>
+                                <option value="2">Khác</option>
+                            <% } else if (cart.getCustomer().getGender() == 1) { %>
+                                <option value="0">Nam</option>
+                                <option value="1" selected>Nữ</option>
+                                <option value="2">Khác</option>
+                            <% } else { %>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
+                                <option value="2" selected>Khác</option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="input_Address">Địa chỉ:</label>
+                <div class="form-group row" id="input_Address">
+                    <div class="col-xs-3">
+                        <input type="text" class="form-control" id="tf_Province" placeholder="Tỉnh/Thành" value="<%= cart.getCustomer().getAddress().getProvince(); %>">
+                    </div>
+                    <div class="col-xs-3">
+                            <input type="text" class="form-control" id="tf_City" placeholder="Quận/Huyện" value="<%= cart.getCustomer().getAddress().getCity(); %>">
+                    </div>
+                    <div class="col-xs-3">
+                            <input type="text" class="form-control" id="tf_Street" placeholder="Xã/Đường" value="<%= cart.getCustomer().getAddress().getStreet(); %>">
+                    </div>
+                    <div class="col-xs-3">
+                            <input type="number" class="form-control" id="tf_HomeIndex" placeholder="Số nhà" value="<%= cart.getCustomer().getAddress().getHomeIndex(); %>">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ta_Desc">Ghi chú:</label>
+                    <textarea class="form-control" id="ta_Desc" rows="5" class="textarea" placeholder="Example"><%= cart.getCustomer().getDescription(); %></textarea>
+                </div>
+
+                <div class="space_60"></div>
+                <p id="error_message" class="error_message" hidden></p>
+                <div class="center_div">
+                    <input type="submit" value="LƯU LẠI" class="btn btn-success button_center"></input>
+                </div>
+            </form>
+        <% } %>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+<div class="space_120"></div>
+
+<%- include('footer.ejs'); %>

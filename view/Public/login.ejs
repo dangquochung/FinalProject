@@ -1,0 +1,33 @@
+<%- include('header.ejs'); %>
+
+<script type="text/javascript" src="Public/js/login.js"></script>
+
+<div class="space_120" id="archon"></div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 category">
+        <div class="title">
+            <p class="form_title">ĐĂNG NHẬP</p>
+        </div>
+        <div class="space_60"></div>
+        <form id="inputForm">
+            <div class="form-group">
+                <label for="tf_Account">Tên đăng nhập:</label>
+                <input type="text" class="form-control" id="tf_Account" placeholder="Example">
+            </div>
+            <div class="form-group">
+                <label for="tf_Password">Mật khẩu:</label>
+                <input type="password" class="form-control" id="tf_Password" placeholder="********">
+            </div>
+
+            <div class="space_60"></div>
+            <p id="error_message" class="error_message" hidden></p>
+            <div class="center_div">
+                <input type="submit" value="ĐĂNG NHẬP" class="btn btn-success button_center"></input>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="space_120"></div>
+
+<%- include('footer.ejs') %>

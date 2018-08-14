@@ -1,0 +1,19 @@
+#dialog_title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #165eda;
+}
+
+#dialog_content {
+    text-align: justify;
+    color: #303030;
+}
+
+.button {
+    width: 100px;
+}
+
+.center_dialog {
+    position: fixed;
+    top: 30%;
+}

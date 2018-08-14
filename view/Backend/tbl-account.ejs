@@ -1,0 +1,58 @@
+<%- include('header.ejs'); %>
+
+<body>
+<!-- Left Panel -->
+<%- include('left-panel.ejs'); %>
+<!-- Left Panel -->
+
+<!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+<%- include('header-right-panel.ejs'); %>
+        <!-- Header-->
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">Cơ sở dữ liệu</strong>
+                            </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>email</th>
+                                        <th>account</th>
+                                        <th>password</th>
+                                        <th>icon</th>                                     
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>14</td>
+                                            <td>hopeless.sweet.boy@gmail.com</td>
+                                            <td>steven_huang</td>
+                                            <td>e10adc3949ba59abbe56e057f20f883e</td>
+                                            <td>NULL</td>                                                                                     
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td>dqh@gmail.com</td>
+                                            <td>hung_dq</td>
+                                            <td>c33367701511b4f6020ec61ded352059</td>
+                                            <td>NULL</td>                            
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+    </div><!-- /#right-panel -->
+<!-- Right Panel -->
+<%- include('footer.ejs'); %>
+

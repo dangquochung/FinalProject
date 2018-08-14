@@ -1,0 +1,61 @@
+<%- include('header.ejs'); %>
+
+<body>
+<!-- Left Panel -->
+<%- include('left-panel.ejs'); %>
+<!-- Left Panel -->
+
+<!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+        <!-- Header-->
+<%- include('header-right-panel.ejs'); %>
+        <!-- Header-->
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">Cơ sở dữ liệu</strong>
+                            </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>desc</th>
+                                        <th>home_index</th>
+                                        <th>street</th>
+                                        <th>city</th>
+                                        <th>province</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Không rõ mô tả</td>
+                                            <td>29</td>
+                                            <td>Vạn Phúc</td>
+                                            <td>Hà Đông</td>
+                                            <td>Hà Nội</td>                                          
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Không rõ mô tả</td>
+                                            <td>16</td>
+                                            <td>Chăm Mát</td>
+                                            <td>Hòa Bình</td>
+                                            <td>Hòa Bình</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+    </div><!-- /#right-panel -->
+<!-- Right Panel -->
+<%- include('footer.ejs'); %>
+

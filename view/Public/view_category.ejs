@@ -1,0 +1,118 @@
+<%- include('header.ejs'); %>
+
+<script type="text/javascript">
+    $(function() {
+        document.title = "<%= BookCategory[kind].name %>";
+        $('#category_<%= kind %>').removeClass('element').addClass('element_focus');
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#archon").offset().top - 100
+        }, 0);
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-8">
+        <div class="space_60" id="archon"></div>
+
+        <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10 category">
+                    <div class="space_60"></div>
+                    <div class="title">
+                        <p class="title_text">Chuyên mục - <%= BookCategory[kind].name; %></p>
+                    </div>
+        
+                    <div class="row">
+                        <% for (var i = 0; i < sameCategoryBook.length; i++) { %>
+                            <div class="col-sm-6 window">
+                                <div class="col-sm-4">
+                                    <img class="book_icon" src="Resources/System/Book/<%= sameCategoryBook[i].getIcon(); %>" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: sameCategoryBook[i].getId(), kind: kind })); %>')"></img>
+                                </div>
+        
+                                <div class="col-sm-8">
+                                    <p class="book_name" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: sameCategoryBook[i].getId(), kind: kind })); %>')"><%= sameCategoryBook[i].getName(); %></p>
+                                    <% if (sameCategoryBook[i].getAuthor() != null) { %>
+                                        <p class="property">Tác giả:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value_clickable"><%= sameCategoryBook[i].getAuthor().getFullName().toString(); %></b></p>
+                                    <% } else { %>
+                                        <p class="property">Tác giả:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value">Không có</b></p>
+                                    <% } %>
+        
+                                    <% if (sameCategoryBook[i].getPublisher() != null) { %>
+                                        <p class="property">NXB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getPublisher().getName(); %></b></p>
+                                    <% } else { %>
+                                        <p class="property">NXB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value">Không có</b></p>
+                                    <% } %>
+        
+                                    <% if (kind == 0) { %>
+                                        <% if (sameCategoryBook[i].getGrade() != null) { %>
+                                            <p class="property">Lớp:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getGrade(); %></b></p>
+                                        <% } %>
+                                        <% if (sameCategoryBook[i].getSubject() != null) { %>
+                                            <p class="property">Môn:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getSubject(); %></b></p>
+                                        <% } %>
+                                        <% if (sameCategoryBook[i].getType() != null) { %>
+                                            <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getType(); %></b></p>
+                                        <% } %>
+                                    <% } else if (kind == 1) { %>
+                                        <% if (sameCategoryBook[i].getMajor() != null) { %>
+                                            <p class="property">Lĩnh vực:&nbsp;<b class="value"><%= sameCategoryBook[i].getMajor(); %></b></p>
+                                        <% } %>
+                                        <% if (sameCategoryBook[i].getType() != null) { %>
+                                            <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getType(); %></b></p>
+                                        <% } %>
+                                    <% } else if (kind == 2) { %>
+                                        <% if (sameCategoryBook[i].getAge() != null) { %>
+                                            <p class="property">Độ tuổi:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getAge(); %></b></p>
+                                        <% } %>
+                                        <% if (sameCategoryBook[i].getType() != null) { %>
+                                            <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getType(); %></b></p>
+                                        <% } %>
+                                    <% } else if (kind == 3) { %>
+                                        <% if (sameCategoryBook[i].getAge() != null) { %>
+                                            <p class="property">Độ tuổi:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getAge(); %></b></p>
+                                        <% } %>
+                                        <% if (sameCategoryBook[i].getType() != null) { %>
+                                            <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getType(); %></b></p>
+                                        <% } %>
+                                    <% } else if (kind == 4) { %>
+                                        <% if (sameCategoryBook[i].getMajor() != null) { %>
+                                            <p class="property">Lĩnh vực:&nbsp;<b class="value"><%= sameCategoryBook[i].getMajor(); %></b></p>
+                                        <% } %>
+                                        <% if (sameCategoryBook[i].getType() != null) { %>
+                                            <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= sameCategoryBook[i].getType(); %></b></p>
+                                        <% } %>
+                                    <% } %>
+        
+                                    <% if (sameCategoryBook[i].getPrice() != null) { %>
+                                        <p class="property">Giá:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="money"><%= sameCategoryBook[i].getPrice(); %> VNĐ</b></p>
+                                    <% } else { %>
+                                        <p class="property">Giá:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="money">Miễn phí</b></p>
+                                    <% } %>
+
+                                    <div class="seperator"></div>
+                                    <% if (sameCategoryBook[i].getQuantity() <= 0) { %>
+                                        <p class="property text-center"><b class="color_red text_20">HẾT HÀNG</b></p>
+                                        <div class="space_30"></div>
+                                    <% } else { %>
+                                        <button type="button" class="btn btn-success btn-block" onclick="addBookToCart('<%= AESEncrypt(QueryStringParser({ id: sameCategoryBook[i].getId(), kind: kind })); %>')"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Thêm vào giỏ</button>
+                                    <% } %>
+                                        
+                                    <div class="space_30"></div>
+                                </div>
+                            </div>
+                        <% } %>
+                        </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+
+        
+        <div class="space_60"></div>
+    </div>
+
+    <div class="col-sm-4">
+        <%- include('right_page.ejs'); %>
+    </div>
+</div>
+
+<%- include('footer.ejs'); %>

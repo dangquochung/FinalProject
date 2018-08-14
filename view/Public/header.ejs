@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Book store</title>
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <script type="text/javascript" src="Public/lib/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="Public/lib/jquery/jquery.sticky.js"></script>
+        <script type="text/javascript" src="Public/lib/jquery/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="Public/lib/bootstrap3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="Public/lib/bootstrap3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="Public/lib/bootstrap3.3.7/css/font-awesome.min.css">
+
+        <script src="Public/lib/security/jsencrypt.min.js"></script>
+        <script src="Public/lib/security/Encoder.js"></script>
+
+        <script type="text/javascript" src="Public/js/index.js"></script>
+        <link rel="stylesheet" type="text/css" href="Public/css/index.css">
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <%- include('dialog.ejs') %>
+
+        <div class="navbar top_bar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a href="/"><span><img id="logo" src="Public/res/BookStoreLogo.png"></img></span></a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <% if (!cart) {%>
+                        <li><a class="element" href="/register"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Đăng ký</a></li>
+                        <li><a class="element" href="/login"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Đăng nhập</a></li>
+                    <% } else { %>
+                        <li><a class="element username" href="/view-cart" data-toggle="tooltip" data-placement="auto" title="Giỏ hàng (<%= cart.getTotalProducts(); %> sản phẩm)."><span><img class="icon_small" src="Public/res/CartIcon.png"></img></span>&nbsp;<%= cart.getTotalProducts() %>&nbsp;&nbsp;&nbsp;</a></li>
+
+                        <li>
+                            <div class="dropdown">
+                                <button class="element username dropdown-toggle transparent" style="margin-top: 5px;" data-toggle="dropdown"><span><img class="avarta_small" src="Resources/User/<%= cart.getCustomer().getAvarta(); %>" data-toggle="tooltip" data-placement="auto" title="<%= cart.getCustomer().getFullName().toString(); %>"></img></span></button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-header">Người dùng</li>
+                                    <li>
+                                        <button class="element username transparent unselectable">&nbsp;&nbsp;&nbsp;<span><img class="avarta_small" src="Resources/User/<%= cart.getCustomer().getAvarta(); %>"></img></span>&nbsp;&nbsp;<%= cart.getCustomer().getFullName().toString(); %></button>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Thông tin</li>
+                                    <li class="selectable"><a class="menu_item" href="/change-password"><span class="glyphicon glyphicon-transfer"></span>&nbsp;&nbsp;Đổi mật khẩu</a></li>
+                                    <li class="selectable"><a class="menu_item" href="/self-info"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Thông tin cá nhân</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown-header">Hệ thống</li>
+                                    <li class="selectable"><a class="menu_item" onclick="onLogout('<%= cart.getCustomer().getFullName().toString(); %>');" style="cursor: pointer;"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;Đăng xuất</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+            
+        <nav class="navbar navigator_bar" id="sticker">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <div class="input-group input_field_searchbook" id="searchBookForm">
+                        <input type="text" id="tf_SearchKey" class="form-control" placeholder="Nhập tên sách để tìm kiếm...">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default button_searchbook" id="tf_SearchKey" onclick="searchBook();" data-toggle="tooltip" data-placement="auto" title="Tìm sách"><i class="glyphicon glyphicon-search icon"></i></button>
+                        </div>
+                    </div>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <% for (var i = 0; i < BookCategory.length; i++) { %>
+                        <li class="category"><a class="element" id="category_<%= i %>" href="/view-category?key=<%= AESEncrypt(QueryStringParser({ kind: i })); %>"><%= BookCategory[i].name %></a></li>
+                    <% } %>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="content">
+            <div class="top_cover">
+
+            </div>

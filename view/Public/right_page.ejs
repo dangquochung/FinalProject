@@ -1,0 +1,54 @@
+<div class="space_60" id="archon"></div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10 category">
+        <div class="space_60"></div>
+        <div class="title">
+            <p class="title_text">SÁCH BÁN CHẠY NHẤT</p>
+        </div>
+
+        <div class="row">
+            <% 
+            for (var i = 0; i < listBestSellBook.length; i++) {
+            %>
+                <div class="col-sm-12 window">
+                    <div class="col-sm-4">
+                        <img class="book_icon" src="Resources/System/Book/<%= listBestSellBook[i].getIcon(); %>" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: listBestSellBook[i].getId(), kind: 9999 })); %>')"></img>
+                    </div>
+
+                    <div class="col-sm-8">
+                        <p class="book_name" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: listBestSellBook[i].getId(), kind: 9999 })); %>')"><%= listBestSellBook[i].getName(); %></p>
+                        
+                        <% if (listBestSellBook[i].getAuthor() != null) { %>
+                            <p class="property">Tác giả:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value_clickable"><%= listBestSellBook[i].getAuthor().getFullName().toString(); %></b></p>
+                        <% } else { %>
+                            <p class="property">Tác giả:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value">Không có</b></p>
+                        <% } %>
+
+                        <% if (listBestSellBook[i].getPublisher() != null) { %>
+                            <p class="property">NXB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBestSellBook[i].getPublisher().getName(); %></b></p>
+                        <% } else { %>
+                            <p class="property">NXB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value">Không có</b></p>
+                        <% } %>
+
+                        <% if (listBestSellBook[i].getPrice() != null) { %>
+                            <p class="property">Giá:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="money"><%= listBestSellBook[i].getPrice(); %> VNĐ</b></p>
+                        <% } else { %>
+                            <p class="property">Giá:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="money">Miễn phí</b></p>
+                        <% } %>
+
+                        <div class="seperator"></div>
+                        <% if (listBestSellBook[i].getQuantity() <= 0) { %>
+                            <p class="property text-center"><b class="color_red text_20 btn-block">HẾT HÀNG</b></p>
+                        <% } else { %>
+                            <button type="button" class="btn btn-success btn-block" onclick="addBookToCart('<%= AESEncrypt(QueryStringParser({ id: listBestSellBook[i].getId(), kind: 9999 })); %>')"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Thêm vào giỏ</button>
+                        <% } %>
+                        <div class="space_30"></div>
+                    </div>
+                </div>
+            <%
+                }
+            %>
+        </div>
+    </div>
+</div>

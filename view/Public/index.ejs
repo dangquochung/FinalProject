@@ -1,0 +1,127 @@
+<%- include('header.ejs'); %>
+
+<div class="space_60"></div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <% for (var j = 0; j < BookCategory.length; j++) { %>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10 category">
+                    <div class="title">
+                        <p class="title_text"><%= BookCategory[j].name %></p>
+                    </div>
+
+                    <div class="row">
+                    <%
+                        var listBook = [];
+                        if (j == 0) {
+                            listBook = listSchoolBook;
+                        } else if (j == 1) {
+                            listBook = listScienceBook;
+                        } else if (j == 2) {
+                            listBook = listComic;
+                        } else if (j == 3) {
+                            listBook = listNovel;
+                        } else if (j == 4) {
+                            listBook = listReferenceBook;
+                        }
+                        for (var i = 0; i < listBook.length; i++) {
+                    %>
+                        <div class="col-sm-6 window">
+                            <div class="col-sm-4">
+                                <img class="book_icon" src="Resources/System/Book//<%= listBook[i].getIcon(); %>" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: listBook[i].getId(), kind: j })); %>')"></img>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <p class="book_name" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: listBook[i].getId(), kind: j })); %>')"><%= listBook[i].getName(); %></p>
+                                <% if (listBook[i].getAuthor() != null) { %>
+                                    <p class="property">Tác giả:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value_clickable"><%= listBook[i].getAuthor().getFullName().toString(); %></b></p>
+                                <% } else { %>
+                                    <p class="property">Tác giả:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value">Không có</b></p>
+                                <% } %>
+
+                                <% if (listBook[i].getPublisher() != null) { %>
+                                    <p class="property">NXB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getPublisher().getName(); %></b></p>
+                                <% } else { %>
+                                    <p class="property">NXB:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value">Không có</b></p>
+                                <% } %>
+
+                                <% if (listBook == listSchoolBook) { %>
+                                    <% if (listBook[i].getGrade() != null) { %>
+                                        <p class="property">Lớp:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getGrade(); %></b></p>
+                                    <% } %>
+                                    <% if (listBook[i].getSubject() != null) { %>
+                                        <p class="property">Môn:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getSubject(); %></b></p>
+                                    <% } %>
+                                    <% if (listBook[i].getType() != null) { %>
+                                        <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getType(); %></b></p>
+                                    <% } %>
+                                <% } else if (listBook == listScienceBook) { %>
+                                    <% if (listBook[i].getMajor() != null) { %>
+                                        <p class="property">Lĩnh vực:&nbsp;<b class="value"><%= listBook[i].getMajor(); %></b></p>
+                                    <% } %>
+                                    <% if (listBook[i].getType() != null) { %>
+                                        <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getType(); %></b></p>
+                                    <% } %>
+                                <% } else if (listBook == listComic) { %>
+                                    <% if (listBook[i].getAge() != null) { %>
+                                        <p class="property">Độ tuổi:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getAge(); %></b></p>
+                                    <% } %>
+                                    <% if (listBook[i].getType() != null) { %>
+                                        <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getType(); %></b></p>
+                                    <% } %>
+                                <% } else if (listBook == listNovel) { %>
+                                    <% if (listBook[i].getAge() != null) { %>
+                                        <p class="property">Độ tuổi:&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getAge(); %></b></p>
+                                    <% } %>
+                                    <% if (listBook[i].getType() != null) { %>
+                                        <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getType(); %></b></p>
+                                    <% } %>
+                                <% } else if (listBook == listReferenceBook) { %>
+                                    <% if (listBook[i].getMajor() != null) { %>
+                                        <p class="property">Lĩnh vực:&nbsp;<b class="value"><%= listBook[i].getMajor(); %></b></p>
+                                    <% } %>
+                                    <% if (listBook[i].getType() != null) { %>
+                                        <p class="property">Loại:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="value"><%= listBook[i].getType(); %></b></p>
+                                    <% } %>
+                                <% } %>
+
+                                <% if (listBook[i].getPrice() != null) { %>
+                                    <p class="property">Giá:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="money"><%= listBook[i].getPrice(); %> VNĐ</b></p>
+                                <% } else { %>
+                                    <p class="property">Giá:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="money">Miễn phí</b></p>
+                                <% } %>
+
+                                <div class="seperator"></div>
+                                <% if (listBook[i].getQuantity() <= 0) { %>
+                                    <p class="property text-center"><b class="color_red text_20">HẾT HÀNG</b></p>
+                                    <div class="space_30"></div>
+                                <% } else { %>
+                                    <div class="space_30"></div>
+                                    <button type="button" class="btn btn-success btn-block" onclick="addBookToCart('<%= AESEncrypt(QueryStringParser({ id: listBook[i].getId(), kind: j })); %>')"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;&nbsp;Thêm vào giỏ</button>
+                                <% } %>
+
+                                <div class="space_30"></div>
+                            </div>
+                        </div>
+                    <%
+                        }
+                    %>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="space_30"></div>
+        <%
+            }
+        %>
+    </div>
+
+    <div class="col-sm-4">
+        <%- include('right_page.ejs'); %>
+    </div>
+</div>
+
+
+<%- include('footer.ejs'); %>

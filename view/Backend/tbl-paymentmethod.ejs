@@ -1,0 +1,50 @@
+<%- include('header.ejs'); %>
+<body>
+
+<!-- Left Panel -->
+<%- include('left-panel.ejs'); %>
+<!-- Left Panel -->
+
+<!-- Right Panel -->
+    <div id="right-panel" class="right-panel">
+
+<!-- Header-->
+<%- include('header-right-panel.ejs'); %>
+<!-- Header-->
+        <div class="content mt-3">
+            <div class="animated fadeIn">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong class="card-title">Cơ sở dữ liệu</strong>
+                            </div>
+                            <div class="card-body">
+                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>order_id</th>
+                                        <th>status</th>                                   
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>0</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .animated -->
+        </div><!-- .content -->
+    </div><!-- /#right-panel -->
+<!-- Right Panel -->
+<%- include('footer.ejs'); %>
+

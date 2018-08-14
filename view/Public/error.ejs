@@ -1,0 +1,25 @@
+<%- include('header.ejs'); %>
+
+<script type="text/javascript">
+    $(function() {
+        document.title = "Có lỗi xảy ra!";
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $("#archon").offset().top - 100
+        }, 1000);
+    });
+</script>
+
+<div class="space_120" id="archon"></div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 category">
+        <div class="title">
+            <p class="form_title">THAO TÁC BỊ LỖI</p>
+        </div>
+        <div class="space_60"></div>
+        <p class="larger_text"><%= error_message; %></p>
+    </div>
+</div>
+<div class="space_120"></div>
+
+<%- include('footer.ejs') %>

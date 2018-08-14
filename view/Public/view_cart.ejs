@@ -1,0 +1,64 @@
+<%- include('header.ejs'); %>
+
+<script type="text/javascript" src="Public/js/view_cart.js"></script>
+
+<div class="space_120" id="archon"></div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 category">
+        <div class="title">
+            <p class="form_title">GIỎ HÀNG</p>
+        </div>
+        <div class="space_60"></div>
+            <% if(cart.getTotalProducts() <= 0) { %>
+                <p class="larger_text">Hiện tại không có sản phẩm nào trong giỏ hàng</p>
+            <% } else { %>
+            <table class="table table-hover window">
+                <thead>
+                    <tr class="table_header">
+                        <th class="align-middle text-center">STT</th>
+                        <th class="align-middle text-center">Hình ảnh</th>
+                        <th class="align-middle">Tên sách</th>
+                        <th class="align-middle text-center">Đơn giá</th>
+                        <th class="align-middle text-center">Số lượng</th>
+                        <th class="align-middle text-center">Tổng tiền</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% for(var i = 0; i < cart.getListItems().length; i++) { %>
+                        <% var item = cart.getListItems()[i]; %>
+                        <tr>
+                            <td class="align-middle text-center"><p class="property"><%= (i + 1); %></p></td>
+                            <td class="align-middle"><img class="book_icon_small" src="Resources/System/Book/<%= item.getItem().getIcon(); %>" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: item.getItem().getId(), kind: 9999 })); %>')"></img></td>
+                            <td class="align-middle"><p class="book_name" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: item.getItem().getId(), kind: 9999 })); %>')"><%= item.getItem().getName(); %></p></td>
+                            <td class="align-middle property text-center"><p class="value"><%= item.getItem().getPrice(); %></p></td>
+                            <td class="align-middle property text-center"><p class="quantity"><%= item.getQuantity(); %></p></td>
+                            <td class="align-middle property text-center"><p class="simple_money"><%= (item.getQuantity() * item.getItem().getPrice()); %></p></td>
+                            <td class="align-middle property text-center"><button type="button" class="btn btn-warning" onclick="removeBookFromCart('<%= AESEncrypt(QueryStringParser({ id: item.getItem().getId() })); %>')"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Xóa</button></td>
+                        </tr>
+                    <% } %>
+                    <tr class="table_footer">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="align-middle property"><p class="">Tổng cộng:</p></td>
+                        <td class="align-middle property text-center"><p class="money"><%= cart.getTotalPrice(); %></p></td>
+                        <td class="align-middle text-center"><button type="button" class="btn btn-danger" onclick="emptyCart();"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Xóa hết</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="space_60"></div>
+
+            <div class="center_div">
+                <button type="button" class="btn btn-success button_center" onclick="gotoPay();"><span class="glyphicon glyphicon-retweet"></span>&nbsp;&nbsp;Thanh toán</button>
+            </div>
+        <% } %>
+    </div>
+</div>
+<div class="space_120"></div>
+
+<%- include('footer.ejs'); %>

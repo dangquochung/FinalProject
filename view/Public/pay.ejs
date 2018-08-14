@@ -1,0 +1,152 @@
+<%- include('header.ejs'); %>
+
+<script type="text/javascript" src="Public/js/pay.js"></script>
+
+<div class="space_120"></div>
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 category">
+        <div class="title">
+            <p class="form_title">THANH TOÁN</p>
+        </div>
+        <div class="space_60"></div>
+        <div class="document_category">1. Xác nhận đơn hàng</div>
+        <div class="space_30"></div>
+        <div>
+            <% if(cart.getTotalProducts() <= 0) { %>
+                <p class="larger_text">Hiện tại không có sản phẩm nào trong giỏ hàng</p>
+            <% } else { %>
+                <table class="table table-hover window">
+                    <thead>
+                        <tr class="table_header">
+                            <th class="align-middle text-center">STT</th>
+                            <th class="align-middle text-center">Hình ảnh</th>
+                            <th class="align-middle">Tên sách</th>
+                            <th class="align-middle text-center">Đơn giá</th>
+                            <th class="align-middle text-center">Số lượng</th>
+                            <th class="align-middle text-center">Tổng tiền</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <% for(var i = 0; i < cart.getListItems().length; i++) { %>
+                            <% var item = cart.getListItems()[i]; %>
+                            <tr>
+                                <td class="align-middle text-center"><p class="property"><%= (i + 1); %></p></td>
+                                <td class="align-middle"><img class="book_icon_small" src="Resources/System/Book/<%= item.getItem().getIcon(); %>" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: item.getItem().getId(), kind: 9999 })); %>')"></img></td>
+                                <td class="align-middle"><p class="book_name" onclick="viewBook('<%= AESEncrypt(QueryStringParser({ id: item.getItem().getId(), kind: 9999 })); %>')"><%= item.getItem().getName(); %></p></td>
+                                <td class="align-middle property text-center"><p class="value"><%= item.getItem().getPrice(); %></p></td>
+                                <td class="align-middle property text-center"><p class="quantity"><%= item.getQuantity(); %></p></td>
+                                <td class="align-middle property text-center"><p class="simple_money"><%= (item.getQuantity() * item.getItem().getPrice()); %></p></td>
+                            </tr>
+                        <% } %>
+                        <tr class="table_footer">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="align-middle property"><p class="">Tổng cộng:</p></td>
+                            <td class="align-middle property text-center"><p class="money"><%= cart.getTotalPrice(); %></p></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="space_30"></div>
+                <div class="document_category">2. Thanh toán</div>
+                <div class="space_30"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="panel panel-info">
+                            <div class="panel-heading text-center"><b class="panel_title"><span class="glyphicon glyphicon-send"></span>&nbsp;&nbsp;&nbsp;&nbsp;Hình thức thanh toán</b></div>
+                            <div class="panel-body">
+                                <div class="radio">
+                                    <label><input type="radio" id="rb_DirectPay" name="paymentMethod" data-toggle="collapse" data-target="#viaBank.in" checked>Thanh toán trực tiếp khi nhận hàng</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" id="rb_BankPay" name="paymentMethod" data-toggle="collapse" data-target="#viaBank:not(.in)">Thanh toán qua thẻ ngân hàng</label>
+                                </div>
+                                <div class="collapse" id="viaBank">
+                                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Chọn ngân hàng đối tác tương ứng:</b>
+                                    <% for (var i = 0; i < bankList.length; i++) { %>
+                                        <div class="space_20"></div>
+                                        <div class="radio" style="margin-left: 20px;">
+                                            <img class="bank_icon" src="Resources/System/Bank/<%= bankList[i].getIcon(); %>"></img>
+                                            <label class="center_text"><input type="radio" name="selectBank" onclick="$selectedBankLink = '<%= bankList[i].getLink(); %>'"><b class="bank_name"><%= bankList[i].getName(); %></b></label>
+                                        </div>
+                                    <% } %>
+                                    <div class="space_20"></div>
+                                    <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Hoặc chuyển khoản trực tiếp:</b>
+                                    <br>
+                                    <div class="space_20"></div>
+                                    <div class="panel panel-default" style="padding: 20px; margin-left: 30px; margin-right: 30px;">
+                                        <b>Ngân hàng:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><b class="special_property color_blue"><%= selfCreditInfo.bank; %></b>
+                                        <br>
+                                        <b>Số tài khoản:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><b class="special_property color_red"><%= selfCreditInfo.cardSerial; %></b>
+                                        <br>
+                                        <b>Chủ tài khoản:&nbsp;&nbsp;&nbsp;</b><b class="special_property color_green"><%= selfCreditInfo.owner; %></b>
+                                        <br>
+                                        <b>Nội dung:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b><b class="normal_property color_darkgray"><%= selfCreditInfo.content; %></b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <div class="panel panel-success">
+                            <div class="panel-heading text-center"><b class="panel_title"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;&nbsp;&nbsp;Địa chỉ giao hàng</b></div>
+                            <form class="panel-body" id="shippingAddressForm">
+                                <div class="radio">
+                                    <label><input type="radio" id="rb_ToCurrentAddress" name="shippingAddress" data-toggle="collapse" data-target="#shippingAddress.in" checked>Giao tới địa chỉ của tôi</label>
+                                </div>
+                                <div class="radio">
+                                    <label><input type="radio" id="rb_ToNewAddress" name="shippingAddress" data-toggle="collapse" data-target="#shippingAddress:not(.in)">Giao tới địa chỉ khác</label>
+                                </div>
+
+                                <div class="collapse" id="shippingAddress">
+                                    <div class="form-group">
+                                        <label for="tf_Name">Người nhận:</label>
+                                        <input type="text" class="form-control" id="tf_Name" placeholder="Example">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tf_Phone">Số điện thoại:</label>
+                                        <input type="text" class="form-control" id="tf_Phone" placeholder="0123456789">
+                                    </div>
+                                    <label for="input_Address">Địa chỉ:</label>
+                                    <div class="form-group row" id="input_Address">
+                                        <div class="col-xs-6">
+                                            <input type="text" class="form-control" id="tf_Province" placeholder="Tỉnh/Thành">
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input type="text" class="form-control" id="tf_City" placeholder="Quận/Huyện">
+                                            <div class="space_20"></div>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <input type="text" class="form-control" id="tf_Street" placeholder="Xã/Đường">
+                                        </div>
+                                        <div class="col-xs-6">
+                                                <input type="number" class="form-control" id="tf_HomeIndex" placeholder="Số nhà">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="ta_Desc">Ghi chú:</label>
+                                        <textarea class="form-control" id="ta_Desc" rows="5" class="textarea" placeholder="Example"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="space_60"></div>
+                                <p id="error_message" class="error_message" hidden></p>
+                                <div class="center_div">
+                                    <button type="submit" class="btn btn-success button_center"><span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;XÁC NHẬN ĐẶT HÀNG</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+<div class="space_120"></div>
+
+<%- include('footer.ejs') %>
